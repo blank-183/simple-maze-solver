@@ -2,14 +2,21 @@ package mazesolver;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Maze {
 	int[][] matrix;
 	int colSize;
 	int rowSize;
+	Point start;
+	LinkedList<Point> path;
 	
 	Maze(String file) {
+		readFile(file);
+	}
+	
+	private void readFile(String file) {
 		File tf = new File(file);
 		Scanner sc = null;
 		
@@ -37,6 +44,17 @@ public class Maze {
 		}
 		
 		matrix = new int[rowSize][colSize];
+		
+		String[] startStr = sc.nextLine().split(" ");
+		
+		// checks if the size is correct
+		if(startStr.length == 2) {
+			 start = new Point(Integer.parseInt(startStr[0]), Integer.parseInt(startStr[1]));
+		} else {
+			System.out.println("The maze size provided in the text file is incorrect!");
+			sc.close();
+			System.exit(1);
+		}
 		
 		while(sc.hasNextLine()) {
 			if(lineCount > rowSize) {

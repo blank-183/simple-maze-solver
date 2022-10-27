@@ -1,8 +1,8 @@
 package mazesolver;
 
-import java.util.List;
+import java.util.LinkedList;
 
 public class PathList {
-	List<Point> path;
+	LinkedList<Point> path;
 	Point start;
 }
