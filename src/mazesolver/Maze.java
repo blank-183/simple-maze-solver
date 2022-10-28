@@ -49,7 +49,7 @@ public class Maze {
 		
 		// checks if the size is correct
 		if(startStr.length == 2) {
-			 start = new Point(Integer.parseInt(startStr[0]), Integer.parseInt(startStr[1]));
+			 start = new Point(Integer.parseInt(startStr[0]), Integer.parseInt(startStr[1]), "start");
 		} else {
 			System.out.println("The maze size provided in the text file is incorrect!");
 			sc.close();
