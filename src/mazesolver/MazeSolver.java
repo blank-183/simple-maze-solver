@@ -20,13 +20,20 @@ public class MazeSolver {
 
 		maze.path = new LinkedList<Point>();
 		
+		if(maze.matrix[maze.start.y][maze.start.x] != PATH) {
+			System.out.println("The starting path cannot be a wall!");
+			System.exit(1);
+		}
+		
+		maze.path.push(maze.start);
+		
 		// find the exit
 		if(solveMaze()) {
 			System.out.println("The path is: ");
 
 	        for (int i = maze.path.size() - 1; i >= 0; i--) {
 	        	if(i != 0) {
-	        		System.out.print(maze.path.get(i).move + " => ");
+	        		System.out.print(maze.path.get(i).move + " > ");
 	        	} else {
 	        		System.out.println(maze.path.get(i).move);
 	        	}   
@@ -37,14 +44,6 @@ public class MazeSolver {
 	}
 	
 	public static boolean solveMaze() {
-		
-		if(maze.matrix[maze.start.y][maze.start.x] != PATH) {
-			System.out.println("The starting path cannot be a wall!");
-			System.exit(1);
-		}
-		
-		maze.path.push(maze.start);
-		
 		if(maze.matrix[maze.path.peek().y][maze.path.peek().x] == DESTINATION) {
 			return true;
 		}
@@ -60,27 +59,19 @@ public class MazeSolver {
 				if(maze.matrix[maze.path.peek().y][maze.path.peek().x] == DESTINATION) {
 					return true;
 				} 
-			}
-			
-			else if(moveDown(y, x)) {
+			} else if(moveDown(y, x)) {
 				if(maze.matrix[maze.path.peek().y][maze.path.peek().x] == DESTINATION) {
 					return true;
 				} 
-			}
-			
-			else if(moveLeft(y, x)) {
+			} else if(moveLeft(y, x)) {
 				if(maze.matrix[maze.path.peek().y][maze.path.peek().x] == DESTINATION) {
 					return true;
 				} 
-			}
-			
-			else if(moveRight(y, x)) {
+			} else if(moveRight(y, x)) {
 				if(maze.matrix[maze.path.peek().y][maze.path.peek().x] == DESTINATION) {
 					return true;
 				} 
-			}
-			
-			else { 
+			} else { 
 				maze.path.pop();
 			}
 			
@@ -94,7 +85,7 @@ public class MazeSolver {
 		// wait lang
 		int newY = y - 1;
 		
-		if(isPath(newY, x) == PATH || isPath(newY, x) == DESTINATION) {
+		if(isPath(newY, x)) {
 			maze.path.push(new Point(newY, x, "up"));
 			return true;
 		} 
@@ -105,7 +96,7 @@ public class MazeSolver {
 	public static boolean moveDown(int y, int x) {
 		int newY = y + 1;
 		
-		if(isPath(newY, x) == PATH || isPath(newY, x) == DESTINATION) {
+		if(isPath(newY, x)) {
 			maze.path.push(new Point(newY, x, "down"));
 			return true;
 		} 
@@ -116,7 +107,7 @@ public class MazeSolver {
 	public static boolean moveLeft(int y, int x) {
 		int newX = x - 1;
 		
-		if(isPath(y, newX) == PATH || isPath(y, newX) == DESTINATION) {
+		if(isPath(y, newX)) {
 			maze.path.push(new Point(y, newX, "left"));
 			return true;
 		} 
@@ -127,7 +118,7 @@ public class MazeSolver {
 	public static boolean moveRight(int y, int x) {
 		int newX = x + 1;
 		
-		if(isPath(y, newX) == PATH || isPath(y, newX) == DESTINATION) {
+		if(isPath(y, newX)) {
 			maze.path.push(new Point(y, newX, "right"));
 			return true;
 		} 
@@ -135,16 +126,12 @@ public class MazeSolver {
 		return false;
 	}
 	
-	public static int isPath(int y, int x) {
+	public static boolean isPath(int y, int x) {
 		if(isValid(y, x)) {
-			if(maze.matrix[y][x] == PATH) {
-				return 1;
-			} else if(maze.matrix[y][x] == DESTINATION) {
-				return 2;
-			}
+			return (maze.matrix[y][x] == PATH || maze.matrix[y][x] == DESTINATION);
 		}
 		
-		return 0;
+		return false;
 	}
 	
 	public static boolean isValid(int y, int x) {
