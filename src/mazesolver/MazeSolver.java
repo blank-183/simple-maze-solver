@@ -29,15 +29,7 @@ public class MazeSolver {
 		
 		// find the exit
 		if(solveMaze()) {
-			System.out.println("The path is: ");
-
-	        for (int i = maze.path.size() - 1; i >= 0; i--) {
-	        	if(i != 0) {
-	        		System.out.print(maze.path.get(i).move + " > ");
-	        	} else {
-	        		System.out.println(maze.path.get(i).move);
-	        	}   
-	        }
+			foundPath();
 		} else {
 			System.out.println("Sorry! There is no path.");
 		}
@@ -73,6 +65,17 @@ public class MazeSolver {
 			}
 		}
 		return false;
+	}
+	
+	public static void foundPath() {
+		System.out.println("The path is: ");
+		for (int i = maze.path.size() - 1; i >= 0; i--) {
+        	if(i != 0) {
+        		System.out.print(maze.path.get(i).move + " > ");
+        	} else {
+        		System.out.println(maze.path.get(i).move);
+        	}   
+        }
 	}
 	
 	public static int peekX() {
