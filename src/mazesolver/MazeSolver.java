@@ -44,41 +44,43 @@ public class MazeSolver {
 	}
 	
 	public static boolean solveMaze() {
-		if(maze.matrix[maze.path.peek().y][maze.path.peek().x] == DESTINATION) {
+		if(maze.matrix[peekY()][peekX()] == DESTINATION) {
 			return true;
 		}
 
-		while(true) {
-			int y = maze.path.peek().y;
-			int x = maze.path.peek().x;
+		while(!(maze.path.isEmpty())) {
+			if(maze.matrix[peekY()][peekX()] == DESTINATION) {
+				return true;
+			}
 			
-			maze.matrix[y][x] = 0;
+			int y = peekY();
+			int x = peekX();
+			
+			maze.matrix[peekY()][peekX()] = 0;
 			
 			// move up
 			if(moveUp(y, x)) {
-				if(maze.matrix[maze.path.peek().y][maze.path.peek().x] == DESTINATION) {
-					return true;
-				} 
+				// go up if it is a path
 			} else if(moveDown(y, x)) {
-				if(maze.matrix[maze.path.peek().y][maze.path.peek().x] == DESTINATION) {
-					return true;
-				} 
+				// go down if it is a path
 			} else if(moveLeft(y, x)) {
-				if(maze.matrix[maze.path.peek().y][maze.path.peek().x] == DESTINATION) {
-					return true;
-				} 
+				// go left if it is a path
 			} else if(moveRight(y, x)) {
-				if(maze.matrix[maze.path.peek().y][maze.path.peek().x] == DESTINATION) {
-					return true;
-				} 
+				// go right if it is a path
 			} else { 
+				// go back if there's no other path
 				maze.path.pop();
 			}
-			
-			if(maze.path.isEmpty()) {
-				return false;
-			}
 		}
+		return false;
+	}
+	
+	public static int peekX() {
+		return maze.path.peek().x;
+	}
+	
+	public static int peekY() {
+		return maze.path.peek().y;
 	}
 	
 	public static boolean moveUp(int y, int x) {
